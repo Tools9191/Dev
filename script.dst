@@ -1,0 +1,6 @@
+let x = 5
+let y = 10
+print("x est " + str(x))
+print("y est " + str(y))
+let somme = x + y
+print("La somme est " + str(somme))
