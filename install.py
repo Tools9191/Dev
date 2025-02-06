@@ -7,6 +7,7 @@ import time
 import urllib.request
 import zipfile
 import subprocess
+import sys
 from win32com.client import Dispatch  # Nécessaire pour créer des raccourcis
 
 class InstallateurApp:
@@ -164,26 +165,23 @@ class InstallateurApp:
             if self.checkbox_var.get():
                 self.afficher_message("Ajout au menu Démarrer activé !")
             
-            self.create_shortcuts()
+            # Créer le raccourci pour script.dst uniquement
+            self.create_shortcut_for_script_dst()
+
             self.next_button.config(text="Terminer")
         else:
             self.afficher_message("Installation terminée avec succès!")
+            self.run_pip_install()  # Exécuter pip install à la fin
             self.root.quit()
 
-    def create_shortcuts(self):
+    def create_shortcut_for_script_dst(self):
         try:
-            # Chemin du fichier editscript.bat à raccourcir
-            editscript_bat_path = os.path.join(self.dev_main_dir, "editscript.bat")
-
-            # Créer le raccourci sur le bureau pour editscript.bat
-            self.create_shortcut(editscript_bat_path, os.path.join(self.desktop, "editscript.bat.lnk"))
-
             # Créer le raccourci pour script.dst
             script_dst_path = os.path.join(self.dev_main_dir, "script.dst")
             self.create_shortcut(script_dst_path, os.path.join(self.desktop, "script.dst.lnk"))
 
         except Exception as e:
-            self.afficher_message(f"Erreur lors de la création des raccourcis : {str(e)}")
+            self.afficher_message(f"Erreur lors de la création du raccourci : {str(e)}")
 
     def create_shortcut(self, target, shortcut_path):
         """ Crée un raccourci Windows """
@@ -196,6 +194,19 @@ class InstallateurApp:
             shortcut.save()
         except Exception as e:
             self.afficher_message(f"Erreur lors de la création du raccourci: {str(e)}")
+
+    def run_pip_install(self):
+        """ Exécuter pip install -r requirements.txt """
+        try:
+            requirements_path = os.path.join(self.dev_main_dir, "requirements.txt")
+            if os.path.exists(requirements_path):
+                self.progress_label.config(text="Installation des dépendances...")
+                subprocess.run([sys.executable, "-m", "pip", "install", "-r", requirements_path], check=True)
+                self.afficher_message("Installation des dépendances terminée !")
+            else:
+                self.afficher_message("Le fichier requirements.txt est introuvable.")
+        except Exception as e:
+            self.afficher_message(f"Erreur lors de l'installation des dépendances : {str(e)}")
 
 # Création de la fenêtre Tkinter
 root = tk.Tk()
