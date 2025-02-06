@@ -5,4 +5,3 @@ gitpython
 colorama
 tk
 pywin32
-sys
