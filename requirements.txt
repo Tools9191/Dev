@@ -4,3 +4,4 @@ requests
 gitpython
 colorama
 tk
+pywin32
