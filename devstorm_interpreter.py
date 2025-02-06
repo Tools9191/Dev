@@ -1,6 +1,5 @@
 import os
 import re
-import win32com.client
 
 # Dictionnaire pour stocker les variables
 variables = {}
@@ -54,30 +53,9 @@ def execute_file(file_path):
     except Exception as e:
         print(f"Une erreur est survenue : {e}")
 
-# Fonction pour créer un raccourci vers le fichier script.dst sur le bureau
-def create_shortcut(file_path):
-    try:
-        user_folder = os.path.expanduser("~")  # Récupère le répertoire de l'utilisateur
-        desktop_path = os.path.join(user_folder, "Desktop")
-        shortcut_name = "script_dst.lnk"
-
-        # Créer le raccourci
-        shell = win32com.client.Dispatch("WScript.Shell")
-        shortcut = shell.CreateShortcut(os.path.join(desktop_path, shortcut_name))
-        shortcut.TargetPath = file_path
-        shortcut.WorkingDirectory = os.path.dirname(file_path)  # Facultatif : définit le répertoire de travail
-        shortcut.Save()
-
-        print(f"Raccourci créé sur le bureau : {os.path.join(desktop_path, shortcut_name)}")
-    except Exception as e:
-        print(f"Erreur lors de la création du raccourci : {e}")
-
 # Exemple d'utilisation : obtenir dynamiquement le chemin du fichier .DST
 user_folder = os.path.expanduser("~")  # Cela récupère le répertoire de l'utilisateur actuel
 file_path = os.path.join(user_folder, "AppData", "Local", "Programs", "StormDev-X", "Dev-main", "script.dst")
-
-# Créer un raccourci vers script.dst sur le bureau
-create_shortcut(file_path)
 
 # Exécuter le fichier .DST
 execute_file(file_path)
