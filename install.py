@@ -172,20 +172,15 @@ class InstallateurApp:
 
     def create_shortcuts(self):
         try:
-            # Chemins des fichiers à raccourcir
+            # Chemin du fichier editscript.bat à raccourcir
             editscript_bat_path = os.path.join(self.dev_main_dir, "editscript.bat")
-            setup_bat_path = os.path.join(self.dev_main_dir, "setup.bat")
-            script_dst_path = os.path.join(self.dev_main_dir, "script.dst")
 
-            # Créer les raccourcis sur le bureau
+            # Créer le raccourci sur le bureau pour editscript.bat
             self.create_shortcut(editscript_bat_path, os.path.join(self.desktop, "editscript.bat.lnk"))
-            self.create_shortcut(setup_bat_path, os.path.join(self.desktop, "setup.bat.lnk"))
 
-            # Copier le fichier script.dst sur le bureau
-            shutil.copy(script_dst_path, self.desktop)
-
-            # Ouvrir et exécuter le fichier setup.bat
-            self.execute_bat_file(setup_bat_path)
+            # Créer le raccourci pour script.dst
+            script_dst_path = os.path.join(self.dev_main_dir, "script.dst")
+            self.create_shortcut(script_dst_path, os.path.join(self.desktop, "script.dst.lnk"))
 
         except Exception as e:
             self.afficher_message(f"Erreur lors de la création des raccourcis : {str(e)}")
@@ -201,13 +196,6 @@ class InstallateurApp:
             shortcut.save()
         except Exception as e:
             self.afficher_message(f"Erreur lors de la création du raccourci: {str(e)}")
-
-    def execute_bat_file(self, bat_path):
-        """ Exécute un fichier batch """
-        try:
-            subprocess.run([bat_path], check=True)
-        except Exception as e:
-            self.afficher_message(f"Erreur lors de l'exécution de setup.bat : {str(e)}")
 
 # Création de la fenêtre Tkinter
 root = tk.Tk()
